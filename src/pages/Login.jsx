@@ -1,6 +1,5 @@
-
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
+import api from '../api/axios';
 import * as yup from 'yup';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -19,15 +18,14 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       await loginSchema.validate({ email, password });
-      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, { email, password });
-      await login(response.data.token); 
+      const response = await api.post('/auth/login', { email, password });
+      await login(response.data.token); // Actualiza el contexto con el token
       setAlert('Inicio de sesión exitoso');
       navigate('/tools');
     } catch (error) {
-      setAlert(error.errors ? error.errors[0] : error.response?.data?.message || 'Error al iniciar sesión.');
+      setAlert(error.response?.data?.message || 'Error al iniciar sesión.');
     }
   };
 
