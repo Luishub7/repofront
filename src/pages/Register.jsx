@@ -1,12 +1,12 @@
+// src/pages/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import * as yup from 'yup'; // Importa yup para las validaciones
+import * as yup from 'yup';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [message, setMessage] = useState('');
 
-  // Define el esquema de validación con yup
   const registerSchema = yup.object().shape({
     name: yup.string().required('El nombre es obligatorio'),
     email: yup.string().email('Correo inválido').required('El correo es obligatorio'),
@@ -16,9 +16,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Valida los datos antes de enviarlos
       await registerSchema.validate(formData);
-
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/register`, formData);
       setMessage(response.data.message);
     } catch (error) {
@@ -27,33 +25,41 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-5">
       <h1>Registro</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Nombre"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          required
-        />
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={formData.password}
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          required
-        />
-        <button type="submit">Registrar</button>
+        <div className="mb-3">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Nombre"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Correo electrónico"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Contraseña"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Registrar
+        </button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="mt-3 text-danger">{message}</p>}
     </div>
   );
 };

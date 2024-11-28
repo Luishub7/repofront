@@ -1,3 +1,4 @@
+// src/components/Navbar.jsx
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
@@ -14,9 +15,6 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
-{/*         <Link className="navbar-brand" to="/">
-          Stock de Herramientas
-        </Link> */}
         <button
           className="navbar-toggler"
           type="button"
