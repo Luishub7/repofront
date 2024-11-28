@@ -1,0 +1,74 @@
+/* Estilos generales */
+body {
+  background-color: #f8f9fa; /* Fondo claro */
+  font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna */
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: #333;
+}
+
+table {
+  font-size: 0.9rem; /* Texto más compacto en tablas */
+}
+
+.btn {
+  border-radius: 5px; /* Botones redondeados */
+}
+
+/* Estilos del navbar */
+nav {
+  background: #007bff; /* Fondo azul de Bootstrap */
+  color: #fff;
+  padding: 10px;
+}
+
+nav a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos adicionales para formularios */
+form {
+  margin-top: 20px;
+}
+
+form input, form select, form textarea {
+  font-size: 0.95rem;
+}
+
+/* Mejoras en tablas */
+table.table {
+  background: #fff; /* Fondo blanco para tablas */
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table.table th {
+  background-color: #007bff; /* Cabecera azul */
+  color: #fff;
+  text-align: center;
+}
+
+table.table td {
+  text-align: center;
+}
+
+/* Clases personalizadas */
+.container {
+  padding: 20px;
+}
+
+.card {
+  margin-top: 20px;
+}
