@@ -1,27 +1,24 @@
-// src/App.jsx
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import Register from './pages/Register';
-import Login from './pages/Login';
-import ToolsPage from './pages/ToolsPage';
+import RegisterPage from './pages/Register';
+import LoginPage from './pages/Login';
 import VerifyEmail from './pages/VerifyEmail';
-import Navbar from './components/Navbar';
-import ProtectedRoute from './components/ProtectedRoute';
+import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
-    <>
-      <Navbar />
+    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </Router>
   );
 };
 
 export default App;
+
