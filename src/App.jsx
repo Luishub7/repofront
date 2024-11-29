@@ -1,4 +1,3 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -13,7 +12,7 @@ console.log('Entorno actual:', import.meta.env.MODE);
 
 const App = () => {
   return (
-    <>
+    <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -22,7 +21,7 @@ const App = () => {
         <Route path="/tools" element={<ProtectedRoute><ToolsPage /></ProtectedRoute>} />
         <Route path="/verify-email/:token" element={<VerifyEmail />} />
       </Routes>
-    </>
+    </Router>
   );
 };
 
