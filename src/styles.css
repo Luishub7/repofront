@@ -1,4 +1,4 @@
-/* Estilos generales */
+/* styles.css */
 body {
   background-color: #f8f9fa; /* Fondo claro */
   font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna */
@@ -21,9 +21,6 @@ table {
 
 /* Estilos del navbar */
 nav {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
   background: #007bff; /* Fondo azul de Bootstrap */
   color: #fff;
   padding: 10px;
@@ -51,7 +48,7 @@ form input, form select, form textarea {
 
 /* Mejoras en tablas */
 .table-container {
-  max-height: 600px; /* Controla la altura de la tabla */
+  max-height: 500px; /* Incremento de la altura de la tabla para mejor visualización */
   overflow-y: auto; /* Habilita el scroll vertical dentro del contenedor */
 }
 
@@ -67,8 +64,8 @@ table.table {
   background-color: #007bff; /* Color azul para el encabezado */
   color: white; /* Color del texto */
   z-index: 2; /* Asegura que el encabezado esté sobre las filas */
-  text-align: center;
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* Añade una pequeña sombra para diferenciarlo mejor */
+  text-align: center;
 }
 
 table.table td {
@@ -92,6 +89,9 @@ table.table td {
   .btn {
     font-size: 0.9rem; /* Ajusta el tamaño del texto en los botones */
   }
+  .table-container {
+    max-height: 300px; /* Reduce la altura máxima para dispositivos pequeños */
+  }
 }
 
 /* Ajustes para pantallas medianas (576px a 768px) */
@@ -110,7 +110,7 @@ table.table td {
 
 .sticky-toolbar {
   position: sticky;
-  top: 56px; /* Dejar espacio para la barra de navegación */
-  z-index: 999; /* Asegura que se mantenga visible sobre otros elementos */
+  top: 0;
+  z-index: 1000; /* Asegura que se mantenga visible sobre otros elementos */
   box-shadow: 0 4px 2px -2px rgba(0, 0, 0, 0.1); /* Añade un pequeño sombreado para mejor visibilidad */
 }
