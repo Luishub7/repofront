@@ -51,7 +51,7 @@ form input, form select, form textarea {
 
 /* Mejoras en tablas */
 .table-container {
-  max-height: 400px; /* Controla la altura de la tabla */
+  max-height: 600px; /* Controla la altura de la tabla */
   overflow-y: auto; /* Habilita el scroll vertical dentro del contenedor */
 }
 
