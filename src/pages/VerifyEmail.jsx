@@ -1,31 +1,52 @@
-// src/pages/VerifyEmail.jsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import axios from '../api/axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const VerifyEmail = () => {
-  const { token } = useParams();
-  const [message, setMessage] = useState('');
+    const { token } = useParams(); // Captura el token desde la URL
+    const [message, setMessage] = useState(''); // Estado para el mensaje de verificación
+    const navigate = useNavigate(); // Hook para navegar a otra página
 
-  useEffect(() => {
-    const verifyToken = async () => {
-      try {
-        const response = await axios.get(`/auth/verify-email/${token}`);
-        setMessage(response.data.message);
-      } catch (error) {
-        setMessage(error.response?.data?.message || 'Error al verificar el correo.');
-      }
+    useEffect(() => {
+        const verifyToken = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/auth/verify-email/${token}`);
+                setMessage(response.data.message);
+            } catch (error) {
+                setMessage(error.response?.data?.message || 'Error verifying email.');
+            }
+        };
+
+        verifyToken();
+    }, [token]);
+
+    const handleNavigateToLogin = () => {
+        navigate('/login'); // Navega a la página de inicio de sesión
     };
 
-    verifyToken();
-  }, [token]);
-
-  return (
-    <div>
-      <h1>Verificación de correo</h1>
-      <p>{message}</p>
-    </div>
-  );
+    return (
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+            <h1>Email Verification</h1>
+            <p>{message}</p>
+            {message === 'Email verified successfully' && (
+                <button
+                    onClick={handleNavigateToLogin}
+                    style={{
+                        padding: '10px 20px',
+                        fontSize: '16px',
+                        backgroundColor: '#007BFF',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        marginTop: '20px',
+                    }}
+                >
+                    Go to Login
+                </button>
+            )}
+        </div>
+    );
 };
 
 export default VerifyEmail;

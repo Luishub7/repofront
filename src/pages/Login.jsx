@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import api from '../api/axios';
+import axios from 'axios';
 import * as yup from 'yup';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -18,40 +18,56 @@ const LoginPage = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       await loginSchema.validate({ email, password });
-      const response = await api.post('/auth/login', { email, password });
-      await login(response.data.token); // Actualiza el contexto con el token
-      setAlert('Inicio de sesión exitoso');
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, { email, password });
+      await login(response.data.token); 
+      setAlert('');
       navigate('/tools');
     } catch (error) {
-      setAlert(error.response?.data?.message || 'Error al iniciar sesión.');
+      setAlert(error.errors ? error.errors[0] : error.response?.data?.message || 'Error al iniciar sesión.');
     }
   };
 
   return (
-    <div>
-      <h1>Iniciar sesión</h1>
-      {alert && <p style={{ color: 'red' }}>{alert}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Correo electrónico"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          autoComplete="email"
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          autoComplete="current-password"
-        />
-        <button type="submit">Iniciar sesión</button>
-      </form>
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4 shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+        <h1 className="h4 text-center mb-3">Iniciar Sesión</h1>
+        {alert && <div className="alert alert-danger">{alert}</div>}
+        <form onSubmit={handleLogin}>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Correo Electrónico</label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
+              placeholder="Ingrese su correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              autoComplete="email"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              placeholder="Ingrese su contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              autoComplete="current-password"
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+        <div className="mt-3 text-center">
+          <a href="/register" className="text-decoration-none">¿No tienes una cuenta? Regístrate</a>
+        </div>
+      </div>
     </div>
   );
 };

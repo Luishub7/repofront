@@ -1,6 +1,6 @@
-// src/components/ToolFormModal.jsx
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import * as yup from 'yup'; // Añadido para validar los datos del formulario
 
 const ToolFormModal = ({ show, onHide, onSubmit, initialData = null }) => {
   const [formData, setFormData] = useState({
@@ -11,13 +11,30 @@ const ToolFormModal = ({ show, onHide, onSubmit, initialData = null }) => {
   });
   const [error, setError] = useState(null); // Estado para manejar errores
 
+  // Esquema de validación con yup
+  const toolSchema = yup.object().shape({
+    name: yup.string().required('El nombre es obligatorio'),
+    category: yup.string().required('La categoría es obligatoria'),
+    stock: yup
+      .number()
+      .typeError('El stock debe ser un número')
+      .required('El stock es obligatorio')
+      .positive('El stock debe ser un número positivo'),
+    price: yup
+      .number()
+      .typeError('El precio debe ser un número')
+      .required('El precio es obligatorio')
+      .positive('El precio debe ser un número positivo'),
+  });
+
   useEffect(() => {
     if (initialData) {
       setFormData(initialData);
     } else {
       setFormData({ name: '', category: '', stock: '', price: '' });
     }
-  }, [initialData]);
+    setError(null); // Limpia los errores cada vez que se abre el modal
+  }, [initialData, show]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -26,22 +43,32 @@ const ToolFormModal = ({ show, onHide, onSubmit, initialData = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const success = await onSubmit(formData); // Espera el resultado del submit
-    if (success) {
-      setFormData({ name: '', category: '', stock: '', price: '' }); // Limpia el formulario
-      setError(null); // Limpia errores previos
-      onHide(); // Cierra el modal
-    } else {
-      setError('Error al guardar la herramienta. Verifica los datos.'); // Maneja el error
+    try {
+      await toolSchema.validate(formData, { abortEarly: false }); // Valida los datos del formulario
+      const success = await onSubmit(formData); // Espera el resultado del submit
+      if (success) {
+        setFormData({ name: '', category: '', stock: '', price: '' }); // Limpia el formulario
+        setError(null); // Limpia errores previos
+        onHide(); // Cierra el modal
+      } else {
+        setError('Error al guardar la herramienta. Verifica los datos.'); // Maneja el error si el backend falla
+      }
+    } catch (validationErrors) {
+      // Maneja errores de validación de yup
+      const errorMessages = validationErrors.inner.map((err) => err.message).join('. ');
+      setError(errorMessages);
     }
   };
 
   return (
-    <Modal show={show} onHide={() => {
-      setFormData({ name: '', category: '', stock: '', price: '' }); // Limpia al cerrar
-      setError(null); // Limpia errores
-      onHide();
-    }}>
+    <Modal
+      show={show}
+      onHide={() => {
+        setFormData({ name: '', category: '', stock: '', price: '' }); // Limpia al cerrar
+        setError(null); // Limpia errores
+        onHide();
+      }}
+    >
       <Modal.Header closeButton>
         <Modal.Title>{initialData ? 'Editar Herramienta' : 'Agregar Herramienta'}</Modal.Title>
       </Modal.Header>
@@ -55,7 +82,6 @@ const ToolFormModal = ({ show, onHide, onSubmit, initialData = null }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              required
             />
           </Form.Group>
           <Form.Group>
@@ -65,27 +91,24 @@ const ToolFormModal = ({ show, onHide, onSubmit, initialData = null }) => {
               name="category"
               value={formData.category}
               onChange={handleChange}
-              required
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Stock</Form.Label>
             <Form.Control
-              type="number"
+              type="text"
               name="stock"
               value={formData.stock}
               onChange={handleChange}
-              required
             />
           </Form.Group>
           <Form.Group>
             <Form.Label>Precio</Form.Label>
             <Form.Control
-              type="number"
+              type="text"
               name="price"
               value={formData.price}
               onChange={handleChange}
-              required
             />
           </Form.Group>
           <div className="mt-3 d-flex justify-content-end">

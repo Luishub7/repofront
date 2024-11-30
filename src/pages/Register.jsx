@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import * as yup from 'yup';
@@ -25,43 +24,56 @@ const Register = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h1>Registro</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Nombre"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
+    <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="card p-4 shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
+        <h1 className="h4 text-center mb-3">Registro</h1>
+        {message && <div className={`alert ${message.includes('exitosamente') ? 'alert-success' : 'alert-danger'}`}>{message}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">Nombre</label>
+            <input
+              id="name"
+              type="text"
+              className="form-control"
+              placeholder="Ingrese su nombre"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Correo Electrónico</label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
+              placeholder="Ingrese su correo electrónico"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Contraseña</label>
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              placeholder="Ingrese su contraseña"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">Registrar</button>
+        </form>
+        <div className="mt-3 text-center">
+          <a href="/login" className="text-decoration-none">¿Ya tienes una cuenta? Inicia Sesión</a>
         </div>
-        <div className="mb-3">
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Correo electrónico"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Contraseña"
-            value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Registrar
-        </button>
-      </form>
-      {message && <p className="mt-3 text-danger">{message}</p>}
+      </div>
     </div>
   );
 };
 
 export default Register;
+

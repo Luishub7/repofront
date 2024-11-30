@@ -1,27 +1,29 @@
 import React, { createContext, useState, useEffect } from 'react';
-import api from '../api/axios';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Nuevo estado para manejar la autenticación
 
   const fetchUser = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
       setUser(null);
-      setIsAuthenticated(false);
+      setIsAuthenticated(false); // No autenticado
       return;
     }
     try {
-      const response = await api.get('/auth/me');
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setUser(response.data);
-      setIsAuthenticated(true);
+      setIsAuthenticated(true); // Autenticado
     } catch (error) {
       localStorage.removeItem('token');
       setUser(null);
-      setIsAuthenticated(false);
+      setIsAuthenticated(false); // No autenticado
     }
   };
 
@@ -31,13 +33,13 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (token) => {
     localStorage.setItem('token', token);
-    await fetchUser();
+    await fetchUser(); // Actualiza el usuario después del inicio de sesión
   };
 
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
-    setIsAuthenticated(false);
+    setIsAuthenticated(false); // No autenticado
   };
 
   return (
