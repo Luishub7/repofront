@@ -11,7 +11,7 @@ const ToolsPage = () => {
   const [showFormModal, setShowFormModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedTool, setSelectedTool] = useState(null);
-  const [modalError, setModalError] = useState(null); // Estado para manejar errores en el modal
+  const [modalError, setModalError] = useState(null);
 
   useEffect(() => {
     fetchTools();
@@ -32,19 +32,19 @@ const ToolsPage = () => {
 
   const handleEdit = (tool) => {
     setSelectedTool(tool);
-    setModalError(null); // Limpiar errores al abrir el modal
+    setModalError(null);
     setShowFormModal(true);
   };
 
   const handleDelete = (toolId) => {
     setSelectedTool(toolId);
-    setModalError(null); // Limpiar errores al abrir el modal
+    setModalError(null);
     setShowConfirmModal(true);
   };
 
   const handleAddTool = () => {
     setSelectedTool(null);
-    setModalError(null); // Limpiar errores al abrir el modal
+    setModalError(null);
     setShowFormModal(true);
   };
 
@@ -99,18 +99,20 @@ const ToolsPage = () => {
                 <td>{tool.stock}</td>
                 <td>{tool.price}</td>
                 <td>
-                  <button
-                    onClick={() => handleEdit(tool)}
-                    className="btn btn-outline-primary btn-sm me-2"
-                  >
-                    <i className="bi bi-pencil"></i> {/* Cambiado a bi-pencil para mejor visual */}
-                  </button>
-                  <button
-                    onClick={() => handleDelete(tool.id)}
-                    className="btn btn-outline-danger btn-sm"
-                  >
-                    <i className="bi bi-trash"></i> {/* Cambiado a bi-trash para mejor visual */}
-                  </button>
+                  <div className="d-flex justify-content-center gap-2">
+                    <button
+                      onClick={() => handleEdit(tool)}
+                      className="btn btn-outline-primary btn-sm"
+                    >
+                      <i className="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      onClick={() => handleDelete(tool.id)}
+                      className="btn btn-outline-danger btn-sm"
+                    >
+                      <i className="bi bi-trash"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             ))}

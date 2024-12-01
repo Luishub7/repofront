@@ -24,7 +24,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div className="container d-flex justify-content-center align-items-center vh-100" style={{ marginTop: '-100px' }}>
       <div className="card p-4 shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
         <h1 className="h4 text-center mb-3">Registro</h1>
         {message && <div className={`alert ${message.includes('exitosamente') ? 'alert-success' : 'alert-danger'}`}>{message}</div>}
