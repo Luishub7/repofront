@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // Configurar Axios para incluir automáticamente el token en las solicitudes
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api', // Desarrollo por defecto
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api', // URL base de la API
 });
 
 // Interceptores para agregar el token a las solicitudes
