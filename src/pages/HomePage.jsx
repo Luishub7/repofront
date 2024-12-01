@@ -7,7 +7,7 @@ const HomePage = () => {
         <h1 className="display-4">Bienvenido al Sistema de Gestión de Herramientas</h1>
         <p className="lead">Gestione sus herramientas de manera eficiente y profesional.</p>
         <a href="/tools" className="btn btn-primary btn-lg">
-          Ver Herramientas
+          Iniciar Sesion
         </a>
       </div>
     </div>
