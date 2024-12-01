@@ -31,7 +31,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
+    <div className="container d-flex justify-content-center align-items-center vh-100" style={{ marginTop: '-100px' }}>
       <div className="card p-4 shadow-sm" style={{ maxWidth: '400px', width: '100%' }}>
         <h1 className="h4 text-center mb-3">Iniciar Sesión</h1>
         {alert && <div className="alert alert-danger">{alert}</div>}
