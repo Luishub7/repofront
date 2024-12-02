@@ -1,6 +1,7 @@
+// src/pages/VerifyEmail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api/axios'; // Usar el cliente Axios configurado
 
 const VerifyEmail = () => {
     const { token } = useParams(); // Captura el token desde la URL
@@ -10,7 +11,7 @@ const VerifyEmail = () => {
     useEffect(() => {
         const verifyToken = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/auth/verify-email/${token}`);
+                const response = await api.get(`/auth/verify-email/${token}`); // Usa la baseURL configurada
                 setMessage(response.data.message);
             } catch (error) {
                 setMessage(error.response?.data?.message || 'Error verifying email.');
