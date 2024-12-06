@@ -1,7 +1,6 @@
-// src/pages/VerifyEmail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import api from '../api/axios'; // Usar el cliente Axios configurado
+import axios from 'axios';
 
 const VerifyEmail = () => {
     const { token } = useParams(); // Captura el token desde la URL
@@ -11,15 +10,18 @@ const VerifyEmail = () => {
     useEffect(() => {
         const verifyToken = async () => {
             try {
-                const response = await api.get(`/auth/verify-email/${token}`); // Usa la baseURL configurada
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/auth/verify-email/${token}`);
                 setMessage(response.data.message);
+                if (response.data.message === 'Correo verificado exitosamente') {
+                    setTimeout(() => navigate('/login'), 3000); // Redirige después de 3 segundos
+                }
             } catch (error) {
-                setMessage(error.response?.data?.message || 'Error verifying email.');
+                setMessage(error.response?.data?.message || 'Error al verificar el correo.');
             }
         };
 
         verifyToken();
-    }, [token]);
+    }, [token, navigate]);
 
     const handleNavigateToLogin = () => {
         navigate('/login'); // Navega a la página de inicio de sesión
@@ -27,9 +29,9 @@ const VerifyEmail = () => {
 
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <h1>Email Verification</h1>
+            <h1>Verificación de Correo</h1>
             <p>{message}</p>
-            {message === 'Email verified successfully' && (
+            {message === 'Correo verificado exitosamente' && (
                 <button
                     onClick={handleNavigateToLogin}
                     style={{
@@ -43,7 +45,7 @@ const VerifyEmail = () => {
                         marginTop: '20px',
                     }}
                 >
-                    Go to Login
+                    Ir al Login
                 </button>
             )}
         </div>

@@ -1,4 +1,4 @@
-/* styles.css */
+/* Estilos generales */
 body {
   background-color: #f8f9fa; /* Fondo claro */
   font-family: 'Roboto', Arial, sans-serif; /* Fuente moderna */
@@ -48,7 +48,7 @@ form input, form select, form textarea {
 
 /* Mejoras en tablas */
 .table-container {
-  max-height: 500px; /* Incremento de la altura de la tabla para mejor visualización */
+  max-height: 400px; /* Controla la altura de la tabla */
   overflow-y: auto; /* Habilita el scroll vertical dentro del contenedor */
 }
 
@@ -88,9 +88,6 @@ table.table td {
   }
   .btn {
     font-size: 0.9rem; /* Ajusta el tamaño del texto en los botones */
-  }
-  .table-container {
-    max-height: 300px; /* Reduce la altura máxima para dispositivos pequeños */
   }
 }
 
