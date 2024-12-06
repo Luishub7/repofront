@@ -29,7 +29,7 @@ const useTools = () => {
       const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/tools`, tool, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setTools((prevTools) => [...prevTools, response.data]); // Agregar al estado
+      setTools((prevTools) => [response.data,...prevTools]); // Agregar al estado
       return true; // Indicar éxito
     } catch (err) {
       setError(err.response?.data?.message || 'Error al agregar herramienta');
