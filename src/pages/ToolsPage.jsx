@@ -75,13 +75,13 @@ const ToolsPage = () => {
           {/* Botones de Agregar y Eliminar Herramienta */}
           <div className="d-flex">
             <button onClick={handleAddTool} className="btn btn-primary me-2" disabled={isMultipleSelected}>
-              Agregar Herramienta
+              Agregar
             </button>
             <button className="btn btn-danger"
               onClick={() => setShowConfirmModal(true)}
               disabled={selectedTools.length === 0}
             >
-              Eliminar Herramientas Seleccionadas
+              Eliminar
             </button>
           </div>
         </div>
