@@ -50,6 +50,7 @@ form input, form select, form textarea {
 .table-container {
   max-height: 400px; /* Controla la altura de la tabla */
   overflow-y: auto; /* Habilita el scroll vertical dentro del contenedor */
+  overflow-x: auto; /* Habilita el scroll horizontal dentro del contenedor */
 }
 
 table.table {
@@ -73,8 +74,10 @@ table.table {
 .icon-delete {
   color: #dc3545; /* Rojo */
 }
-table.table td {
+.table td, .table th {
+  padding: 8px; /* Ajuste de espacio interno */
   text-align: center;
+  vertical-align: middle;
 }
 
 /* Clases personalizadas */
@@ -88,11 +91,20 @@ table.table td {
 
 /* Ajustes para pantallas pequeñas (menos de 576px) */
 @media (max-width: 576px) {
-  h1, h2, h3, h4, h5 {
-    font-size: 1.5rem; /* Reduce el tamaño de los encabezados */
+  .table td, .table th {
+    padding: 12px; /* Incrementar padding en pantallas pequeñas */
+    font-size: 0.85rem; /* Reducir el tamaño del texto */
   }
-  .btn {
-    font-size: 0.9rem; /* Ajusta el tamaño del texto en los botones */
+  
+  .table .name-column {
+    max-width: 150px; /* Limitar el ancho máximo de la columna "Nombre" */
+    overflow: hidden; /* Cortar texto que sobrepase */
+    text-overflow: ellipsis; /* Agregar puntos suspensivos al texto largo */
+    white-space: nowrap; /* Evitar que el texto ocupe varias líneas */
+  }
+  
+  .table tr {
+    min-height: 50px; /* Incrementar la altura mínima de las filas */
   }
 }
 

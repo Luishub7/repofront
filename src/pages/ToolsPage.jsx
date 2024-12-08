@@ -90,7 +90,7 @@ const ToolsPage = () => {
           <tbody>
             {filteredTools.map((tool) => (
               <tr key={tool.id}>
-                <td>{tool.name}</td>
+                <td className="name-column">{tool.name}</td> {/* Clase personalizada */}
                 <td>{tool.category}</td>
                 <td>{tool.stock}</td>
                 <td>{tool.price}</td>
