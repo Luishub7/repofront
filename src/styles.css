@@ -27,7 +27,7 @@ nav {
 }
 
 nav a {
-  color: #fff;
+  color: #fff !important; /* Color blanco para los enlaces de navegación */
   margin: 0 10px;
   text-decoration: none;
   font-weight: 500;
@@ -67,7 +67,12 @@ table.table {
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4); /* Añade una pequeña sombra para diferenciarlo mejor */
   text-align: center;
 }
-
+.icon-edit {
+  color: #007bff; /* Azul */
+}
+.icon-delete {
+  color: #dc3545; /* Rojo */
+}
 table.table td {
   text-align: center;
 }

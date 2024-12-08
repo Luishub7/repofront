@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import useTools from '../hooks/useTools';
 import ToolFormModal from '../components/ToolFormModal';
 import ConfirmModal from '../components/ConfirmModal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ToolsPage = () => {
   const { tools, addTool, updateTool, deleteTool, fetchTools, error } = useTools();
@@ -10,8 +12,8 @@ const ToolsPage = () => {
   const [filteredTools, setFilteredTools] = useState([]);
   const [showFormModal, setShowFormModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [selectedTools, setSelectedTools] = useState([]);
-  const [selectedTool, setSelectedTool] = useState(null);
+  const [selectedTool, setSelectedTool] = useState(null); // Herramienta seleccionada para editar
+  const [toolToDelete, setToolToDelete] = useState(null); // Herramienta seleccionada para eliminar
 
   useEffect(() => {
     fetchTools();
@@ -35,20 +37,17 @@ const ToolsPage = () => {
     setShowFormModal(true);
   };
 
-  const handleDelete = () => {
-    selectedTools.forEach((toolId) => deleteTool(toolId));
-    setShowConfirmModal(false);
-    setSelectedTools([]);
+  const handleDeleteClick = (toolId) => {
+    setToolToDelete(toolId);
+    setShowConfirmModal(true); // Mostrar el modal de confirmación
   };
 
-  const handleSelectTool = (toolId) => {
-    setSelectedTools((prevSelected) => {
-      if (prevSelected.includes(toolId)) {
-        return prevSelected.filter((id) => id !== toolId);
-      } else {
-        return [...prevSelected, toolId];
-      }
-    });
+  const handleConfirmDelete = () => {
+    if (toolToDelete) {
+      deleteTool(toolToDelete); // Eliminar la herramienta
+      setToolToDelete(null); // Limpiar el estado
+      setShowConfirmModal(false); // Cerrar el modal
+    }
   };
 
   const handleAddTool = () => {
@@ -56,14 +55,11 @@ const ToolsPage = () => {
     setShowFormModal(true);
   };
 
-  const isMultipleSelected = selectedTools.length > 1;
-
   return (
     <div className="container mt-4">
-      {/* Contenedor fijo para la barra de búsqueda y botones */}
+      {/* Barra de búsqueda y botón Agregar */}
       <div className="sticky-toolbar bg-light p-3 mb-3">
         <div className="d-flex flex-column align-items-start">
-          {/* Barra de búsqueda */}
           <input
             type="text"
             placeholder="Buscar herramientas..."
@@ -71,30 +67,19 @@ const ToolsPage = () => {
             onChange={handleSearch}
             className="form-control w-100 w-md-50 mb-2"
           />
-
-          {/* Botones de Agregar y Eliminar Herramienta */}
-          <div className="d-flex">
-            <button onClick={handleAddTool} className="btn btn-primary me-2" disabled={isMultipleSelected}>
-              Agregar
-            </button>
-            <button className="btn btn-danger"
-              onClick={() => setShowConfirmModal(true)}
-              disabled={selectedTools.length === 0}
-            >
-              Eliminar
-            </button>
-          </div>
+          <button onClick={handleAddTool} className="btn btn-primary">
+            Agregar
+          </button>
         </div>
       </div>
 
       {error && <p className="text-danger">{error}</p>}
 
-      {/* Contenedor que controla el scroll para la tabla */}
+      {/* Tabla de herramientas */}
       <div className="table-container">
         <table className="table table-bordered table-hover">
           <thead>
             <tr>
-              <th>Seleccionar</th>
               <th>Nombre</th>
               <th>Categoría</th>
               <th>Stock</th>
@@ -105,13 +90,6 @@ const ToolsPage = () => {
           <tbody>
             {filteredTools.map((tool) => (
               <tr key={tool.id}>
-                <td>
-                  <input
-                    type="checkbox"
-                    checked={selectedTools.includes(tool.id)}
-                    onChange={() => handleSelectTool(tool.id)}
-                  />
-                </td>
                 <td>{tool.name}</td>
                 <td>{tool.category}</td>
                 <td>{tool.stock}</td>
@@ -120,9 +98,14 @@ const ToolsPage = () => {
                   <button
                     onClick={() => handleEdit(tool)}
                     className="btn btn-warning btn-sm me-2"
-                    disabled={isMultipleSelected}
                   >
-                    Editar
+                    <FontAwesomeIcon icon={faEdit} />
+                  </button>
+                  <button
+                    onClick={() => handleDeleteClick(tool.id)}
+                    className="btn btn-danger btn-sm"
+                  >
+                    <FontAwesomeIcon icon={faTrash} />
                   </button>
                 </td>
               </tr>
@@ -131,18 +114,20 @@ const ToolsPage = () => {
         </table>
       </div>
 
-      {/* Modales */}
+      {/* Modal para formulario */}
       <ToolFormModal
         show={showFormModal}
         onHide={() => setShowFormModal(false)}
         onSubmit={selectedTool ? (data) => updateTool(selectedTool.id, data) : addTool}
         initialData={selectedTool || null}
       />
+
+      {/* Modal de confirmación */}
       <ConfirmModal
         show={showConfirmModal}
         onHide={() => setShowConfirmModal(false)}
-        onConfirm={handleDelete}
-        message={`¿Estás seguro de que deseas eliminar las herramientas seleccionadas?`}
+        onConfirm={handleConfirmDelete}
+        message={`¿Estás seguro de que deseas eliminar esta herramienta?`}
       />
     </div>
   );
